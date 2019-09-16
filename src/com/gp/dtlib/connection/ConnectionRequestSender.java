@@ -44,15 +44,14 @@ class ConnectionRequestSender {
                 LibLog.d(DEBUG_TAG, "trying to connect with ip address ->" + remoteIpAddress);
                 Socket socket = new Socket(remoteIpAddress, ConnectionManager.CONNECTING_PORT_NUMBER);
                 
-                LibLog.d(DEBUG_TAG, "receiving connection stablished data with ->" + remoteIpAddress);
-                DataInputStream dataInputStream = new DataInputStream(socket.getInputStream());
-                Map<String, String> receivedMap = DTUtils.stringToMap(dataInputStream.readUTF());
-
                 LibLog.d(DEBUG_TAG, "sending connection stablished data with ->" + remoteIpAddress);
                 DataOutputStream dataOutputStream = new DataOutputStream(socket.getOutputStream());
                 dataOutputStream.writeUTF(connectionStublishedRequestInfo());
                 dataOutputStream.flush();
-
+                
+                LibLog.d(DEBUG_TAG, "receiving connection stablished data with ->" + remoteIpAddress);
+                DataInputStream dataInputStream = new DataInputStream(socket.getInputStream());
+                Map<String, String> receivedMap = DTUtils.stringToMap(dataInputStream.readUTF());
                 String clientName = receivedMap.get(DTConstants.CLIENT_NAME);
                 String clientIpAddress = receivedMap.get(DTConstants.CLIENT_IP_ADDRESS);
                 if(clientName == null || clientName.length() == 0 || clientIpAddress == null || clientIpAddress.length() == 0){
