@@ -1,20 +1,21 @@
 package com.gp.dtlib.connection;
 
 import com.gp.dtlib.DTClient;
+import com.gp.dtlib.DTDiscoveredClient;
 import com.gp.dtlib.LibLog;
 
-class ConnectorManager {
+class ConnectionRequestSenderManager {
     private static final String DEBUG_TAG = "ConnectorManager";
 
-    private static ConnectorManager connectorManager;
+    private static ConnectionRequestSenderManager connectorManager;
     static void initialize(ConnectorManagerCallBacks connectorManagerCallBacks){
         if(connectorManager != null){
         	LibLog.d(DEBUG_TAG, "initialize -> ConnectorManager already initialized. [return]");
             return;
         }
-        connectorManager = new ConnectorManager(connectorManagerCallBacks);
+        connectorManager = new ConnectionRequestSenderManager(connectorManagerCallBacks);
     }
-    static ConnectorManager getInstance() {
+    static ConnectionRequestSenderManager getInstance() {
         if(connectorManager == null){
         	LibLog.d(DEBUG_TAG, "getInstance -> ConnectorManager not initialized. [return]");
             return null;
@@ -22,19 +23,19 @@ class ConnectorManager {
         return connectorManager;
     }
 
-    private Connector connector;
+    private ConnectionRequestSender connector;
     private ConnectorManagerCallBacks connectorManagerCallBacks;
 
-    private ConnectorManager(ConnectorManagerCallBacks connectorManagerCallBacks){
+    private ConnectionRequestSenderManager(ConnectorManagerCallBacks connectorManagerCallBacks){
         this.connectorManagerCallBacks = connectorManagerCallBacks;
     }
 
-    void sendConnectionRequest(String ipAddress) {
-        connector = new Connector(new ConnectorCallBackHandler());
-        connector.sendConnectionRequest(ipAddress);
+    void sendConnectionRequest(String myProfileName, DTDiscoveredClient discoveredClient) {
+        connector = new ConnectionRequestSender(new ConnectorCallBackHandler());
+        connector.sendConnectionRequest(myProfileName, discoveredClient);
     }
 
-    private class ConnectorCallBackHandler implements Connector.ConnectorCallBacks{
+    private class ConnectorCallBackHandler implements ConnectionRequestSender.ConnectorCallBacks{
 
         @Override
         public void connectorOnSuccessfulConnection(DTClient connectedClient) {

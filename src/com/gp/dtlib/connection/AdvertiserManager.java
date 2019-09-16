@@ -1,6 +1,5 @@
 package com.gp.dtlib.connection;
 
-import com.gp.dtlib.DTClient;
 import com.gp.dtlib.LibLog;
 
 class AdvertiserManager {
@@ -31,9 +30,9 @@ class AdvertiserManager {
         this.advertiseManagerCallBacks = advertiseManagerCallBacks;
     }
 
-    void startAdvertising(){
+    void startAdvertising(String myProfileName){
         advertiser = new Advertiser(new AdvertisingCallBackHandler());
-        advertiser.startAdvertising();
+        advertiser.startAdvertising(myProfileName);
     }
 
     void stopAdvertising(){
@@ -54,16 +53,11 @@ class AdvertiserManager {
             advertiser = null;
             advertiseManagerCallBacks.advertiserManagerStoppedAdvertising();
         }
-
-        @Override
-        public void advertiserGotConnected(DTClient connectedClients) {
-            advertiseManagerCallBacks.advertiserManagerGotConnected(connectedClients);
-        }
+        
     }
 
     public interface AdvertiserManagerCallBacks{
         void advertiserManagerStartedAdvertising();
         void advertiserManagerStoppedAdvertising();
-        void advertiserManagerGotConnected(DTClient connectedClient);
     }
 }

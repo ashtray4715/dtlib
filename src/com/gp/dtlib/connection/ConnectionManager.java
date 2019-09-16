@@ -10,6 +10,7 @@ import com.gp.dtlib.LibLog;
 public class ConnectionManager {
     private static final String DEBUG_TAG = "ConnectionManager";
     static final int ADVERTISING_PORT_NUMBER = 55555;
+    static final int CONNECTING_PORT_NUMBER = 55556;
 
     private static ConnectionManager connectionManager;
     public static ConnectionManager getInstance(){
@@ -25,13 +26,13 @@ public class ConnectionManager {
     private ConnectionManager(){
         AdvertiserManager.initialize(new AdvertiseManagerCallBackHandler());
         ScannerManager.initialize(new ScannerManagerCallBackHandler());
-        ConnectorManager.initialize(new ConnectorManagerCallBackHandler());
+        ConnectionRequestSenderManager.initialize(new ConnectorManagerCallBackHandler());
     }
 
-    public void startAdvertising(ConnectionManagerAdvertisingCallBacks connectionManagerAdvertisingCallBacks){
+    public void startAdvertising(String myProfileName, ConnectionManagerAdvertisingCallBacks connectionManagerAdvertisingCallBacks){
     	LibLog.d(DEBUG_TAG, "startAdvertising");
         this.connectionManagerAdvertisingCallBacks = connectionManagerAdvertisingCallBacks;
-        Objects.requireNonNull(AdvertiserManager.getInstance()).startAdvertising();
+        Objects.requireNonNull(AdvertiserManager.getInstance()).startAdvertising(myProfileName);
     }
 
     public void stopAdvertising(){
@@ -50,9 +51,9 @@ public class ConnectionManager {
         Objects.requireNonNull(ScannerManager.getInstance()).stopScanning();
     }
 
-    public void sendConnectionRequest(String remoteIpAddress, ConnectionManagerConnectionCallBacks connectionManagerConnectionCallBacks) {
+    public void sendConnectionRequest(String myProfileName, DTDiscoveredClient discoveredClient, ConnectionManagerConnectionCallBacks connectionManagerConnectionCallBacks) {
         this.connectionManagerConnectionCallBacks = connectionManagerConnectionCallBacks;
-        Objects.requireNonNull(ConnectorManager.getInstance()).sendConnectionRequest(remoteIpAddress);
+        Objects.requireNonNull(ConnectionRequestSenderManager.getInstance()).sendConnectionRequest(myProfileName, discoveredClient);
     }
 
     private class AdvertiseManagerCallBackHandler implements AdvertiserManager.AdvertiserManagerCallBacks{
@@ -67,10 +68,6 @@ public class ConnectionManager {
             connectionManagerAdvertisingCallBacks.connectionManagerStoppedAdvertising();
         }
 
-        @Override
-        public void advertiserManagerGotConnected(DTClient connectedClient) {
-            connectionManagerAdvertisingCallBacks.connectionManagerGotConnected(connectedClient);
-        }
     }
 
     private class ScannerManagerCallBackHandler implements ScannerManager.ScannerManagerCallBacks{
@@ -96,7 +93,7 @@ public class ConnectionManager {
         }
     }
 
-    private class ConnectorManagerCallBackHandler implements ConnectorManager.ConnectorManagerCallBacks{
+    private class ConnectorManagerCallBackHandler implements ConnectionRequestSenderManager.ConnectorManagerCallBacks{
 
         @Override
         public void connectionManagerOnSuccessfulConnected(DTClient connectedClient) {
