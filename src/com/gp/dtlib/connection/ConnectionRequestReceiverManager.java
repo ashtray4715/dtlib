@@ -4,12 +4,12 @@ import com.gp.dtlib.DTClient;
 import com.gp.dtlib.LibLog;
 import com.gp.dtlib.connection.ConnectionRequestReceiver.ConnectionRequestReceiverCallBacks;
 
-class ConnectionRequestReceiverManager {
+public class ConnectionRequestReceiverManager {
     private static String DEBUG_TAG = "ConnectionRequestReceiverManager";
 
     private static ConnectionRequestReceiverManager connectionRequestReceiverManager;
 
-    static void initialize(ConnectionRequestReceiverManagerCallBacks connectionRequestReceiverManagerCallBacks){
+    public static void initialize(ConnectionRequestReceiverManagerCallBacks connectionRequestReceiverManagerCallBacks){
         if(connectionRequestReceiverManager != null){
             LibLog.d(DEBUG_TAG, "initialize -> ConnectionRequestReceiverManager already initialized. [return]");
             return;
@@ -17,7 +17,7 @@ class ConnectionRequestReceiverManager {
         connectionRequestReceiverManager = new ConnectionRequestReceiverManager(connectionRequestReceiverManagerCallBacks);
     }
 
-    static ConnectionRequestReceiverManager getInstance(){
+    public static ConnectionRequestReceiverManager getInstance(){
         if(connectionRequestReceiverManager == null){
         	LibLog.d(DEBUG_TAG, "getInstance -> ConnectionRequestReceiverManager not initialized. [return]");
             return null;
@@ -32,18 +32,18 @@ class ConnectionRequestReceiverManager {
         this.connectionRequestReceiverManagerCallBacks = connectionRequestReceiverManagerCallBacks;
     }
 
-    void startConnectionRequestReceiving(String myProfileName){
+    public void startConnectionRequestReceiving(String myProfileName){
         connectionRequestReceiver = new ConnectionRequestReceiver(new ConnectionRequestReceiverCallBackHandler());
         connectionRequestReceiver.startConnectionRequestReceiving(myProfileName);
     }
 
-    void stopConnectionRequestReceiving(){
+    public void stopConnectionRequestReceiving(){
         if(connectionRequestReceiver != null) {
         	connectionRequestReceiver.stopConnectionRequestReceiving();
         }
     }
 
-    class ConnectionRequestReceiverCallBackHandler implements ConnectionRequestReceiverCallBacks {
+    public class ConnectionRequestReceiverCallBackHandler implements ConnectionRequestReceiverCallBacks {
 
 		@Override
 		public void startedReceiving(int port, String ipAddress) {

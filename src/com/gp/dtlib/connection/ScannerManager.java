@@ -4,12 +4,12 @@ import com.gp.dtlib.DTDiscoveredClient;
 import com.gp.dtlib.DTErrors;
 import com.gp.dtlib.LibLog;
 
-class ScannerManager {
+public class ScannerManager {
     private static String DEBUG_TAG = "ScannerManager";
 
     private static ScannerManager scannerManager;
 
-    static void initialize(ScannerManagerCallBacks scannerManagerCallBacks){
+    public static void initialize(ScannerManagerCallBacks scannerManagerCallBacks){
         if(scannerManager != null){
         	LibLog.d(DEBUG_TAG, "initialize -> ScannerManager already initialized. [return]");
             return;
@@ -17,7 +17,7 @@ class ScannerManager {
         scannerManager = new ScannerManager(scannerManagerCallBacks);
     }
 
-    static ScannerManager getInstance(){
+    public static ScannerManager getInstance(){
         if(scannerManager == null){
         	LibLog.d(DEBUG_TAG, "getInstance -> ScannerManager not initialized. [return]");
             return null;
@@ -32,12 +32,12 @@ class ScannerManager {
         this.scannerManagerCallBacks = scannerManagerCallBacks;
     }
 
-    void startScanning(){
+    public void startScanning(){
         scanner = new Scanner(new ScanningCallBackHandler());
         scanner.startScanning();
     }
 
-    void stopScanning(){
+    public void stopScanning(){
         if(scanner != null) {
             scanner.stopScanning();
         }

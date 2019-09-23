@@ -2,12 +2,12 @@ package com.gp.dtlib.connection;
 
 import com.gp.dtlib.LibLog;
 
-class AdvertiserManager {
+public class AdvertiserManager {
     private static String DEBUG_TAG = "AdvertiserManager";
 
     private static AdvertiserManager advertiseManager;
 
-    static void initialize(AdvertiserManagerCallBacks advertiseManagerCallBacks){
+    public static void initialize(AdvertiserManagerCallBacks advertiseManagerCallBacks){
         if(advertiseManager != null){
             LibLog.d(DEBUG_TAG, "initialize -> AdvertiserManager already initialized. [return]");
             return;
@@ -15,7 +15,7 @@ class AdvertiserManager {
         advertiseManager = new AdvertiserManager(advertiseManagerCallBacks);
     }
 
-    static AdvertiserManager getInstance(){
+    public static AdvertiserManager getInstance(){
         if(advertiseManager == null){
         	LibLog.d(DEBUG_TAG, "getInstance -> AdvertiserManager not initialized. [return]");
             return null;
@@ -30,12 +30,12 @@ class AdvertiserManager {
         this.advertiseManagerCallBacks = advertiseManagerCallBacks;
     }
 
-    void startAdvertising(String myProfileName){
+    public void startAdvertising(String myProfileName){
         advertiser = new Advertiser(new AdvertisingCallBackHandler());
         advertiser.startAdvertising(myProfileName);
     }
 
-    void stopAdvertising(){
+    public void stopAdvertising(){
         if(advertiser != null) {
             advertiser.stopAdvertising();
         }

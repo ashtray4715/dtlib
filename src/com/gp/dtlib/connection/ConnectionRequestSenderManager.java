@@ -4,18 +4,18 @@ import com.gp.dtlib.DTClient;
 import com.gp.dtlib.DTDiscoveredClient;
 import com.gp.dtlib.LibLog;
 
-class ConnectionRequestSenderManager {
+public class ConnectionRequestSenderManager {
     private static final String DEBUG_TAG = "ConnectorManager";
 
     private static ConnectionRequestSenderManager connectorManager;
-    static void initialize(ConnectorManagerCallBacks connectorManagerCallBacks){
+    public static void initialize(ConnectorManagerCallBacks connectorManagerCallBacks){
         if(connectorManager != null){
         	LibLog.d(DEBUG_TAG, "initialize -> ConnectorManager already initialized. [return]");
             return;
         }
         connectorManager = new ConnectionRequestSenderManager(connectorManagerCallBacks);
     }
-    static ConnectionRequestSenderManager getInstance() {
+    public static ConnectionRequestSenderManager getInstance() {
         if(connectorManager == null){
         	LibLog.d(DEBUG_TAG, "getInstance -> ConnectorManager not initialized. [return]");
             return null;
@@ -30,7 +30,7 @@ class ConnectionRequestSenderManager {
         this.connectorManagerCallBacks = connectorManagerCallBacks;
     }
 
-    void sendConnectionRequest(String myProfileName, DTDiscoveredClient discoveredClient) {
+    public void sendConnectionRequest(String myProfileName, DTDiscoveredClient discoveredClient) {
         connector = new ConnectionRequestSender(new ConnectorCallBackHandler());
         connector.sendConnectionRequest(myProfileName, discoveredClient);
     }
