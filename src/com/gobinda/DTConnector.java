@@ -2,7 +2,6 @@ package com.gobinda;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
-import java.io.IOException;
 import java.net.Socket;
 import java.util.HashMap;
 import java.util.Map;
@@ -30,14 +29,6 @@ class DTConnector {
             return;
         }
         new Thread(new ActualConnector(discoveredClient.getIpAddress())).start();
-    }
-
-    void disconnect(DTConnectedClient connectedClient) {
-        try {
-            connectedClient.getClientSocket().close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     private DTConnectorCallBacks dtConnectorCallBacks;

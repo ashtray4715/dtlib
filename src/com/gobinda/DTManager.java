@@ -2,6 +2,7 @@ package com.gobinda;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.IOException;
 import java.util.Map;
 
 public class DTManager {
@@ -134,7 +135,11 @@ public class DTManager {
 
 	public void disconnect() {
 		DTLog.d(DEBUG_TAG, "called -> disconnect");
-		dtConnector.disconnect(currentlyConnectedClient);
+		try {
+            currentlyConnectedClient.getClientSocket().close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 	}
 
 	// MARK - SEND/RECEIVE DATA PART
