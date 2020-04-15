@@ -1,4 +1,4 @@
-package com.gp.dtlib;
+package com.gobinda;
 
 public class DTDiscoveredClient {
 
@@ -17,4 +17,5 @@ public class DTDiscoveredClient {
     public String getIpAddress() {
         return ipAddress;
     }
+
 }

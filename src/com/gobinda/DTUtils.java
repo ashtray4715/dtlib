@@ -1,4 +1,4 @@
-package com.gp.dtlib;
+package com.gobinda;
 
 import java.io.UnsupportedEncodingException;
 import java.net.Inet4Address;
@@ -11,9 +11,9 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 
-public class DTUtils {
+class DTUtils {
 
-    public static String getLocalIpAddress() {
+    static String getLocalIpAddress() {
         try {
             for (Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces(); en.hasMoreElements();) {
                 NetworkInterface intf = en.nextElement();
@@ -30,11 +30,11 @@ public class DTUtils {
         return null;
     }
 
-    public static long getCurrentTimeAsInteger(){
+    static long getCurrentTimeAsInteger(){
         return System.currentTimeMillis();
     }
 
-    public static String mapToString(Map<String, String> map) {
+    static String mapToString(Map<String, String> map) {
         StringBuilder stringBuilder = new StringBuilder();
 
         for (String key : map.keySet()) {
@@ -54,7 +54,7 @@ public class DTUtils {
         return stringBuilder.toString();
     }
 
-    public static Map<String, String> stringToMap(String input) {
+    static Map<String, String> stringToMap(String input) {
         Map<String, String> map = new HashMap<>();
 
         String[] nameValuePairs = input.split("&");
